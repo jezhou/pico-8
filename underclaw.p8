@@ -33,6 +33,7 @@ function make_player()
     player.y = 1
 
     --fall speed
+    player.dy = 0
     player.rise = 1
     --fly speed
     player.score = 0
@@ -56,8 +57,13 @@ function is_solid(x, y)
 end
 
 function move_player()
-    dy = 0.1
-    new_y = player.y + dy
+    gravity = 0.01
+    player.dy += gravity
+    new_y = player.y + player.dy
+
+    if btnp(btn_up) then
+        player.dy -= 0.5
+    end
 
     -- todo: do the same thing for player y
     -- the +7 is to account for the sprite size
