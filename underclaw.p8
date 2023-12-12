@@ -2,6 +2,9 @@ pico-8 cartridge // http://www.pico-8.com
 version 41
 __lua__
 
+-- Underclaw
+-- by jezhou
+
 function _init()
     game_over = false
     make_player()
