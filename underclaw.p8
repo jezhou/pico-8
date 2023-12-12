@@ -8,7 +8,7 @@ function _init()
 end
 
 function _update()
-    player.y += player.dy
+    move_player()
 end
 
 function _draw()
@@ -18,6 +18,14 @@ function _draw()
 end
 
 -->8
+
+btn_left = 0
+btn_right = 1
+btn_up = 2
+btn_down = 3
+btn_z = 4 -- Often used for jump or primary action
+btn_x = 5 -- Often used for secondary action or alternative jump
+
 function make_player()
     player = {}
     --position
@@ -25,7 +33,6 @@ function make_player()
     player.y = 1
 
     --fall speed
-    player.dy = 0.1
     player.rise = 1
     --fly speed
     player.score = 0
@@ -33,6 +40,30 @@ end
 
 function draw_player()
     spr(1, player.x, player.y)
+end
+
+solid_flag = 0 -- sprite flag for wall (hit & die)
+function is_solid(x, y)
+    -- Convert position to map cell coordinates
+    local cell_x = flr(x / 8)
+    local cell_y = flr(y / 8)
+
+    -- Get the sprite index at the map cell
+    local sprite_index = mget(cell_x, cell_y)
+
+    -- Check if the sprite at this position has the solid flag set
+    return fget(sprite_index, solid_flag)
+end
+
+function move_player()
+    dy = 0.1
+    new_y = player.y + dy
+
+    -- todo: do the same thing for player y
+    -- the +7 is to account for the sprite size
+    if not is_solid(player.x, new_y + 7) then
+        player.y = new_y
+    end
 end
 
 function draw_level(number)
